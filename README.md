@@ -196,11 +196,6 @@ src/main/java/com/sneha/logisticsmarketplace
 
 **M. Sai Sneha Sree**
 
-Integrated M.Tech Software Engineering
-VIT-AP University
 
 ---
 
-## License
-
-This project is developed for educational and internship purposes.
