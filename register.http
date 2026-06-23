@@ -1,0 +1,9 @@
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "name":"Sneha",
+  "email":"sneha@gmail.com",
+  "password":"123456",
+  "role":"SHIPPER"
+}
