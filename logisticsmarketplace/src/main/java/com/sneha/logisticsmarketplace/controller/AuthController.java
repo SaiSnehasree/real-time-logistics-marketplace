@@ -21,4 +21,18 @@ public class AuthController {
     public String register(@RequestBody RegisterRequest request) {
         return authService.register(request);
     }
+    @GetMapping("/register-test")
+    public String registerTest() {
+
+        RegisterRequest request = new RegisterRequest();
+
+        request.setName("Sneha");
+        request.setEmail("sneha@gmail.com");
+        request.setPassword("123456");
+        request.setRole(
+                com.sneha.logisticsmarketplace.entity.Role.SHIPPER
+        );
+
+        return authService.register(request);
+    }
 }
