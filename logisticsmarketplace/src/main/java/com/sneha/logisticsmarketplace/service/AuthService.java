@@ -1,5 +1,6 @@
 package com.sneha.logisticsmarketplace.service;
 
+import com.sneha.logisticsmarketplace.dto.LoginRequest;
 import com.sneha.logisticsmarketplace.dto.RegisterRequest;
 import com.sneha.logisticsmarketplace.entity.User;
 import com.sneha.logisticsmarketplace.repository.UserRepository;
@@ -16,6 +17,10 @@ public class AuthService {
 
     public String register(RegisterRequest request) {
 
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return "Email already exists";
+        }
+
         User user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
@@ -26,5 +31,17 @@ public class AuthService {
         userRepository.save(user);
 
         return "User registered successfully";
+    }
+
+    public String login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        return "Login Successful";
     }
 }

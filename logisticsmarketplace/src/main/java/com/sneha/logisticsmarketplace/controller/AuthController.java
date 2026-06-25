@@ -4,6 +4,7 @@ import com.sneha.logisticsmarketplace.dto.RegisterRequest;
 import com.sneha.logisticsmarketplace.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import com.sneha.logisticsmarketplace.dto.LoginRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -26,6 +27,7 @@ public class AuthController {
 
         RegisterRequest request = new RegisterRequest();
 
+
         request.setName("Sneha");
         request.setEmail("sneha@gmail.com");
         request.setPassword("123456");
@@ -34,5 +36,9 @@ public class AuthController {
         );
 
         return authService.register(request);
+    }
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest request) {
+        return authService.login(request);
     }
 }
