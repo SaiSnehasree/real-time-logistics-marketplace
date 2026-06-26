@@ -1,5 +1,6 @@
 package com.sneha.logisticsmarketplace.service;
 
+import com.sneha.logisticsmarketplace.dto.AuthResponse;
 import com.sneha.logisticsmarketplace.dto.LoginRequest;
 import com.sneha.logisticsmarketplace.dto.RegisterRequest;
 import com.sneha.logisticsmarketplace.entity.User;
@@ -7,6 +8,7 @@ import com.sneha.logisticsmarketplace.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.sneha.logisticsmarketplace.security.JwtService;
 
 @Service
 @RequiredArgsConstructor
@@ -14,7 +16,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final JwtService jwtService;
     public String register(RegisterRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -33,7 +35,7 @@ public class AuthService {
         return "User registered successfully";
     }
 
-    public String login(LoginRequest request) {
+    public AuthResponse login(LoginRequest request) {
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -42,6 +44,11 @@ public class AuthService {
             throw new RuntimeException("Invalid password");
         }
 
-        return "Login Successful";
+        String token = jwtService.generateToken(user.getEmail());
+
+        return new AuthResponse(
+                "Login Successful",
+                token
+        );
     }
 }
