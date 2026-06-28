@@ -60,4 +60,7 @@ public class BidService {
 
         return "Bid accepted successfully";
     }
+    public List<Bid> getAllBids() {
+        return bidRepository.findAll();
+    }
 }

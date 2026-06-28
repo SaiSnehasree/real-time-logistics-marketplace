@@ -6,6 +6,8 @@ import com.sneha.logisticsmarketplace.service.BidService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/bids")
 @RequiredArgsConstructor
@@ -24,5 +26,9 @@ public class BidController {
             @PathVariable Long id) {
 
         return bidService.acceptBid(id);
+    }
+    @GetMapping
+    public List<Bid> getAllBids() {
+        return bidService.getAllBids();
     }
 }
