@@ -16,16 +16,16 @@ public class Bid {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double price;
+    private double amount;
 
     @Enumerated(EnumType.STRING)
     private BidStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "shipment_id")
-    private Shipment shipment;
-
-    @ManyToOne
     @JoinColumn(name = "carrier_id")
     private User carrier;
+
+    @ManyToOne
+    @JoinColumn(name = "shipment_id")
+    private Shipment shipment;
 }

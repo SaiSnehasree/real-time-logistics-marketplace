@@ -1,7 +1,8 @@
 package com.sneha.logisticsmarketplace.entity;
 
 public enum ShipmentStatus {
-    OPEN,
+
+    AVAILABLE,
     AWAITING_PICKUP,
     IN_TRANSIT,
     DELIVERED

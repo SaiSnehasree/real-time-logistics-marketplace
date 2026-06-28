@@ -33,6 +33,7 @@ public class Shipment {
     private User shipper;
 
     @ManyToOne
+
     @JoinColumn(name = "carrier_id")
     private User carrier;
 }
