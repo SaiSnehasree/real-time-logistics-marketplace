@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Map;
+import java.util.HashMap;
 
 @Service
 @RequiredArgsConstructor
@@ -32,5 +34,30 @@ public class ShipmentService {
 
     public List<Shipment> getAllShipments() {
         return shipmentRepository.findAll();
+    }
+    public Map<String, Long> getAnalytics() {
+
+        Map<String, Long> analytics = new HashMap<>();
+
+        analytics.put("totalShipments",
+                shipmentRepository.count());
+
+        analytics.put("available",
+                shipmentRepository.countByStatus(
+                        ShipmentStatus.AVAILABLE));
+
+        analytics.put("awaitingPickup",
+                shipmentRepository.countByStatus(
+                        ShipmentStatus.AWAITING_PICKUP));
+
+        analytics.put("inTransit",
+                shipmentRepository.countByStatus(
+                        ShipmentStatus.IN_TRANSIT));
+
+        analytics.put("delivered",
+                shipmentRepository.countByStatus(
+                        ShipmentStatus.DELIVERED));
+
+        return analytics;
     }
 }

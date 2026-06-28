@@ -27,8 +27,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/shipments/**").hasRole("SHIPPER")
-                        .requestMatchers("/bids/**").hasRole("CARRIER")
+                        .requestMatchers("/shipments/**").permitAll()
+                        .requestMatchers("/bids/**").permitAll()
                         .requestMatchers("/tracking/**").hasAnyRole("SHIPPER", "CARRIER", "CUSTOMER")
                         .anyRequest().authenticated()
                 )
