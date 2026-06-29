@@ -1,119 +1,230 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import StatCard from "../components/StatCard";
-import Layout from "../components/Layout.jsx";
 import AnalyticsChart from "../components/AnalyticsChart";
+
+import {
+    Package,
+    Truck,
+    Clock3,
+    CheckCircle,
+
+} from "lucide-react";
 
 export default function DashboardPage() {
 
     const [analytics, setAnalytics] = useState(null);
     const [shipments, setShipments] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
 
         api.get("/shipments/analytics")
-            .then(res => setAnalytics(res.data));
+            .then((res) => setAnalytics(res.data));
 
         api.get("/shipments")
-            .then(res => setShipments(res.data));
+            .then((res) => setShipments(res.data));
 
     }, []);
-    if (!analytics) return <h1>Loading...</h1>;
+
+    if (!analytics) {
+        return (
+
+                <h1 className="text-white">
+                    Loading...
+                </h1>
+
+        );
+    }
 
     return (
-        <Layout>
-        <div className="min-h-screen bg-slate-100 p-8">
 
-            <h1 className="text-4xl font-bold mb-8">
-                Logistics Dashboard
-            </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-6">
+            <div className="space-y-8">
 
-                <StatCard
-                    title="Total Shipments"
-                    value={analytics.totalShipments}
-                />
 
-                <StatCard
-                    title="Available"
-                    value={analytics.available}
-                />
+                <div className="flex items-center justify-between">
 
-                <StatCard
-                    title="Awaiting Pickup"
-                    value={analytics.awaitingPickup}
-                />
+                    <div>
 
-                <StatCard
-                    title="In Transit"
-                    value={analytics.inTransit}
-                />
+                        <h1 className="text-5xl font-bold text-white">
+                            Welcome Back 👋
+                        </h1>
+                        <p className="text-slate-400 mt-2">
+                            Track shipments, manage bids, and monitor logistics activity.
+                        </p>
 
-                <StatCard
-                    title="Delivered"
-                    value={analytics.delivered}
-                />
-                <div className="mt-8">
-                    <AnalyticsChart analytics={analytics} />
+                        <div className="flex gap-6 mt-4 text-sm text-slate-400">
+                            <span>{shipments.length} Active Shipments</span>
+                            <span>{analytics.available} Available</span>
+                            <span>{analytics.awaitingPickup} Awaiting Pickup</span>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+
+
+
+
+                    </div>
+
                 </div>
-                <div className="mt-8 bg-white rounded-2xl shadow p-6">
+                <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-                    <h2 className="text-xl font-semibold mb-4">
-                        Recent Shipments
-                    </h2>
+                    <StatCard
+                        title="Total Shipments"
+                        value={analytics.totalShipments}
+                        icon={<Package className="text-blue-400" />}
+                        color="bg-blue-500/10"
+                    />
 
-                    <table className="w-full">
+                    <StatCard
+                        title="Available"
+                        value={analytics.available}
+                        icon={<Truck className="text-green-400" />}
+                        color="bg-green-500/10"
+                    />
 
-                        <thead>
-                        <tr className="border-b">
-                            <th className="p-3 text-left">ID</th>
-                            <th className="p-3 text-left">Origin</th>
-                            <th className="p-3 text-left">Destination</th>
-                            <th className="p-3 text-left">Status</th>
-                        </tr>
-                        </thead>
+                    <StatCard
+                        title="Awaiting Pickup"
+                        value={analytics.awaitingPickup}
+                        icon={<Clock3 className="text-amber-400" />}
+                        color="bg-amber-500/10"
+                    />
 
-                        <tbody>
+                    <StatCard
+                        title="Delivered"
+                        value={analytics.delivered}
+                        icon={<CheckCircle className="text-purple-400" />}
+                        color="bg-purple-500/10"
+                    />
 
-                        {shipments
-                            .slice()
-                            .reverse()
-                            .slice(0, 5)
-                            .map((shipment) => (
+                </div>
+                <div className="grid xl:grid-cols-2 gap-6">
 
-                                <tr
-                                    key={shipment.id}
-                                    className="border-b"
-                                >
-                                    <td className="p-3">
-                                        {shipment.id}
-                                    </td>
+                    <div
+                        className="
+                        bg-slate-900
+                        border
+                        border-slate-800
+                        rounded-3xl
+                        p-6
+                        "
+                    >
 
-                                    <td className="p-3">
-                                        {shipment.origin}
-                                    </td>
+                        <AnalyticsChart analytics={analytics} />
+                    </div>
 
-                                    <td className="p-3">
-                                        {shipment.destination}
-                                    </td>
+                    <div
+                        className="
+                        bg-slate-900
+                        border
+                        border-slate-800
+                        rounded-3xl
+                        p-6
+                        "
+                    >
 
-                                    <td className="p-3">
-                                        {shipment.status}
-                                    </td>
+                        <div className="flex justify-between mb-6">
 
-                                </tr>
+                            <h2 className="text-2xl font-bold">
+                                Recent Shipments
+                            </h2>
 
-                            ))}
+                            <button
+                                onClick={() => navigate("/shipments")}
+                                className="
+    text-cyan-400
+    hover:text-cyan-300
+    "
+                            >
+                                View All →
+                            </button>
+                        </div>
 
-                        </tbody>
+                        <table className="w-full">
 
-                    </table>
+                            <thead>
+
+                            <tr className="border-b border-slate-800">
+
+                                <th className="p-4 text-left">
+                                    ID
+                                </th>
+
+                                <th className="p-4 text-left">
+                                    Origin
+                                </th>
+
+                                <th className="p-4 text-left">
+                                    Destination
+                                </th>
+
+                                <th className="p-4 text-left">
+                                    Status
+                                </th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            {shipments
+                                .slice()
+                                .reverse()
+                                .slice(0, 5)
+                                .map((shipment) => (
+
+                                    <tr
+                                        key={shipment.id}
+                                        className="
+                                        border-b
+                                        border-slate-800
+                                        "
+                                    >
+
+                                        <td className="p-4">
+                                            {shipment.id}
+                                        </td>
+
+                                        <td className="p-4">
+                                            {shipment.origin}
+                                        </td>
+
+                                        <td className="p-4">
+                                            {shipment.destination}
+                                        </td>
+
+                                        <td className="p-4">
+    <span
+        className={`px-3 py-1 rounded-full text-xs font-medium ${
+            shipment.status === "AVAILABLE"
+                ? "bg-green-500/20 text-green-400"
+                : shipment.status === "AWAITING_PICKUP"
+                    ? "bg-yellow-500/20 text-yellow-400"
+                    : shipment.status === "DELIVERED"
+                        ? "bg-cyan-500/20 text-cyan-400"
+                        : "bg-slate-700 text-white"
+        }`}
+    >
+        {shipment.status}
+    </span>
+                                        </td>
+                                    </tr>
+
+                                ))}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-   </Layout>
+
     );
 }
