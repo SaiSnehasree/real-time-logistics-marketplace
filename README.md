@@ -2,56 +2,66 @@
 
 ## Overview
 
-The Real-Time Shipment Tracking Portal & Logistics Marketplace is a full-stack logistics platform that connects shippers and carriers through a digital freight marketplace while providing real-time shipment visibility.
+The Real-Time Shipment Tracking Portal & Logistics Marketplace is a full-stack web application designed to streamline logistics operations by providing shipment management, carrier bidding, shipment tracking, and analytics through a centralized platform.
 
-The platform allows shippers to post freight loads, carriers to submit competitive bids, and customers to track shipment movement through a live tracking dashboard powered by WebSockets.
+The system enables shippers to manage freight loads, carriers to participate in transportation opportunities, and administrators to monitor logistics activities through an interactive dashboard.
 
-This project is being developed as part of an internship program with a focus on scalable backend architecture, real-time communication, secure authentication, and modern full-stack development practices.
+Developed using Spring Boot, React.js, and PostgreSQL, the platform demonstrates modern full-stack development practices, secure authentication mechanisms, and scalable application architecture.
 
 ---
 
-## Business Problem
+## Problem Statement
 
-The logistics industry often faces challenges such as:
+The logistics and freight industry often faces several operational challenges, including:
 
-* Limited visibility into shipment movement
-* Manual freight brokering processes
-* Inefficient carrier discovery
-* Delayed shipment status updates
-* Lack of real-time customer tracking
+* Limited visibility into shipment progress
+* Inefficient freight management processes
+* Lack of centralized shipment monitoring
+* Difficulty in managing carrier participation
+* Delayed operational insights and reporting
 
-This platform addresses these issues by providing a centralized marketplace and a real-time tracking system.
+This project addresses these challenges by providing a unified platform for shipment management, tracking, and logistics analytics.
 
 ---
 
 ## Key Features
 
-### Freight Marketplace
-
-* Shippers can create shipment requests
-* Carriers can browse available shipments
-* Carriers can submit bids for shipments
-* Shippers can review and accept bids
-* Automatic rejection of competing bids after selection
-
-### Real-Time Shipment Tracking
-
-* Simulated GPS location updates
-* Live shipment tracking dashboard
-* Real-time coordinate broadcasting using WebSockets
-* Shipment status monitoring
-* Delivery progress visibility
-
 ### Authentication & Security
 
-* JWT-based authentication
-* Role-based authorization
-* Secure API endpoints
-* Separate access control for:
+* User Registration and Login
+* JWT-Based Authentication
+* Protected Routes
+* Secure Password Encryption
+* Spring Security Integration
 
-  * Shippers
-  * Carriers
-  * Customers
+### Shipment Management
+
+* Create Shipments
+* View Shipment Details
+* Search Shipments
+* Delete Shipments
+* Shipment Status Monitoring
+
+### Carrier Bidding Marketplace
+
+* View Carrier Bids
+* Monitor Bid Status
+* Marketplace Overview Dashboard
+* Shipment-Bid Association Management
+
+### Tracking Portal
+
+* Shipment Progress Visualization
+* Interactive Map Integration
+* Status-Based Tracking Dashboard
+* Activity Timeline Monitoring
+
+### Analytics Dashboard
+
+* Shipment Statistics
+* Status Distribution Analysis
+* Operational Insights
+* Logistics Performance Overview
 
 ---
 
@@ -63,132 +73,150 @@ This platform addresses these issues by providing a centralized marketplace and 
 * Spring Boot
 * Spring Security
 * Spring Data JPA
+* Hibernate
 * JWT Authentication
-* Spring WebSocket (STOMP)
 
 ### Frontend
 
 * React.js
+* React Router DOM
 * Axios
-* React Router
 * Tailwind CSS
+* Recharts
+* React Leaflet
 
 ### Database
 
 * PostgreSQL
 
-### Real-Time Communication
-
-* WebSockets
-* STOMP Messaging Protocol
-
-### Version Control
+### Development Tools
 
 * Git
 * GitHub
+* IntelliJ IDEA
+* VS Code
+* Postman
 
 ---
 
-## System Roles
+## System Architecture
+
+```text
+Frontend (React.js)
+        |
+        v
+REST APIs (Spring Boot)
+        |
+        v
+Service Layer
+        |
+        v
+Spring Data JPA
+        |
+        v
+PostgreSQL Database
+```
+
+---
+
+## User Roles
 
 ### Shipper
 
-* Create shipment requests
-* View received bids
-* Award shipments to carriers
-* Track shipment progress
+* Manage shipment records
+* Monitor shipment progress
+* Review shipment information
 
 ### Carrier
 
-* Browse available shipments
-* Submit bids
-* Manage assigned shipments
-* Send tracking updates
+* Participate in shipment bidding
+* View shipment opportunities
+* Track assigned shipments
 
-### Customer
+### Administrator
 
-* Enter tracking ID
-* View shipment location
-* Monitor delivery status
-
----
-
-## Planned Modules
-
-### Phase 1
-
-* Project Setup
-* PostgreSQL Configuration
-* Authentication System
-* User Management
-
-### Phase 2
-
-* Shipment Management
-* Freight Marketplace
-* Bidding Engine
-
-### Phase 3
-
-* WebSocket Integration
-* Live GPS Tracking
-* Shipment Event Broadcasting
-
-### Phase 4
-
-* React Dashboard
-* Interactive Map Integration
-* End-to-End Testing
+* Monitor logistics operations
+* Access analytics dashboard
+* Manage overall platform activities
 
 ---
 
 ## Project Structure
 
 ```text
-src/main/java/com/sneha/logisticsmarketplace
+real-time-logistics-marketplace/
 
-├── config
-├── controller
-├── dto
-├── entity
-├── repository
-├── service
-├── security
-├── exception
-├── websocket
-└── LogisticsmarketplaceApplication
+├── frontend
+│   ├── components
+│   ├── pages
+│   ├── services
+│   └── assets
+│
+├── backend
+│   ├── controller
+│   ├── service
+│   ├── repository
+│   ├── model
+│   ├── security
+│   └── config
+│
+└── README.md
 ```
 
 ---
 
-## Current Status
+## Implemented Modules
 
-### Completed
+| Module                 | Status    |
+| ---------------------- | --------- |
+| Authentication System  | Completed |
+| JWT Security           | Completed |
+| Shipment Management    | Completed |
+| Carrier Bidding Module | Completed |
+| Dashboard Analytics    | Completed |
+| Tracking Portal        | Completed |
+| PostgreSQL Integration | Completed |
+| Interactive Maps       | Completed |
 
-* GitHub Repository Setup
-* Spring Boot Project Initialization
-* Maven Configuration
-* Spring Security Setup
-* WebSocket Dependency Integration
-* Initial Project Structure
+---
 
-### In Progress
+## Application Screens
 
-* PostgreSQL Database Setup
-* Entity Design
-* Authentication Module
+* Login Page
+* Registration Page
+* Dashboard
+* Shipments Module
+* Bids Module
+* Tracking Portal
+* Analytics Dashboard
+
+---
+
+## Learning Outcomes
+
+This project provided practical experience in:
+
+* Full Stack Web Development
+* REST API Development
+* Spring Security and JWT Authentication
+* Database Design and Integration
+* React Component Architecture
+* Logistics Domain Modeling
+* Dashboard and Analytics Development
+* Version Control using Git and GitHub
 
 ---
 
 ## Future Enhancements
 
-* ETA Prediction
-* Email Notifications
-* SMS Alerts
-* Carrier Rating System
-* Route Optimization
-* Analytics Dashboard
-* Containerized Deployment using Docker
+* Real-Time WebSocket Tracking
+* Live GPS Location Updates
+* Bid Acceptance and Rejection Workflow
+* Notification System
+* Email Alerts
+* Advanced Analytics
+* Cloud Deployment
+* Microservices Architecture
 
 ---
 
@@ -196,6 +224,8 @@ src/main/java/com/sneha/logisticsmarketplace
 
 **M. Sai Sneha Sree**
 
-
 ---
 
+## License
+
+This project was developed for academic and internship learning purposes.
