@@ -3,6 +3,7 @@ package com.sneha.logisticsmarketplace.service;
 import com.sneha.logisticsmarketplace.dto.ShipmentRequest;
 import com.sneha.logisticsmarketplace.entity.Shipment;
 import com.sneha.logisticsmarketplace.entity.ShipmentStatus;
+import com.sneha.logisticsmarketplace.repository.BidRepository;
 import com.sneha.logisticsmarketplace.repository.ShipmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 public class ShipmentService {
 
     private final ShipmentRepository shipmentRepository;
+    private final BidRepository bidRepository;
 
     public Shipment createShipment(
             ShipmentRequest request) {
@@ -59,5 +61,12 @@ public class ShipmentService {
                         ShipmentStatus.DELIVERED));
 
         return analytics;
+    }
+
+    public void deleteShipment(Long id) {
+
+        bidRepository.deleteByShipmentId(id);
+
+        shipmentRepository.deleteById(id);
     }
 }

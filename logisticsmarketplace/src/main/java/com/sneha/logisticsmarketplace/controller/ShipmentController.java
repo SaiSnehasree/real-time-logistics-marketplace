@@ -4,6 +4,7 @@ import com.sneha.logisticsmarketplace.dto.ShipmentRequest;
 import com.sneha.logisticsmarketplace.entity.Shipment;
 import com.sneha.logisticsmarketplace.service.ShipmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,21 +18,28 @@ public class ShipmentController {
     private final ShipmentService shipmentService;
 
     @PostMapping
-    public Shipment createShipment(
-            @RequestBody ShipmentRequest request) {
+    public Shipment createShipment(@RequestBody ShipmentRequest request) {
 
         System.out.println("POST /shipments reached");
 
         return shipmentService.createShipment(request);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteShipment(@PathVariable Long id) {
+
+        shipmentService.deleteShipment(id);
+
+        return ResponseEntity.ok("Deleted");
+    }
+
     @GetMapping
     public List<Shipment> getAllShipments() {
         return shipmentService.getAllShipments();
     }
+
     @GetMapping("/analytics")
     public Map<String, Long> analytics() {
         return shipmentService.getAnalytics();
     }
-
 }
