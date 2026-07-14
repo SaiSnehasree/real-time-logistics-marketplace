@@ -307,5 +307,5 @@ Unlike generic database-driven templates, LogiFlow demonstrates key system desig
 
 ## 👤 Author & License
 
-* **Author:** LogiFlow Developer
+* **Author:** M. Sai Sneha Sree
 * **License:** Distributed under the MIT License. See `LICENSE` for more information.
