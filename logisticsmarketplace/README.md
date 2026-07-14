@@ -273,19 +273,63 @@ Open `http://localhost:5173` on browser.
 
 ---
 
-## 🖼️ Screenshots Section
+## 🖼️ Screenshots
 
 > [!TIP]
-> The screenshots below illustrate the interface redesign matching premium startup design guidelines.
+> The screenshots below showcase the major features and workflows of the LogiFlow Real-Time Logistics Marketplace and Shipment Tracking Platform.
 
-| Feature Layout | Interface Mockup Placeholder |
-| :--- | :--- |
-| **Operator Access Terminal** | `[Placeholder: /frontend/public/screenshots/login.png]` |
-| **Dispatcher Operations HUD** | `[Placeholder: /frontend/public/screenshots/dashboard.png]` |
-| **Freight Exchange Panel** | `[Placeholder: /frontend/public/screenshots/marketplace.png]` |
-| **Control Tower GPS Tracking** | `[Placeholder: /frontend/public/screenshots/tracking.png]` |
+### 🔐 Login Portal
+
+![Login Portal](screenshots/login-page.png)
+
+Secure JWT-based authentication system with role-based access control for shippers, carriers, and administrators.
 
 ---
+
+### 📊 Operations Dashboard
+
+![Operations Dashboard](screenshots/operations-dashboard.png)
+
+Centralized logistics control center displaying shipment KPIs, active deliveries, carrier utilization, operational alerts, and business analytics.
+
+---
+
+### 🚚 Freight Exchange Marketplace
+
+![Freight Exchange Marketplace](screenshots/freight-exchange.png)
+
+Marketplace where shippers can publish freight loads and discover available transportation capacity across carrier networks.
+
+---
+
+### 💰 Carrier Bidding Feed
+
+![Carrier Bidding Feed](screenshots/bidding-feed.png)
+
+Real-time bidding platform enabling carriers to submit transportation proposals while allowing shippers to compare and manage bids efficiently.
+
+---
+
+### 📡 Control Tower Tracking
+
+![Control Tower Tracking](screenshots/control-tower-tracking.png)
+
+Live shipment monitoring interface powered by Spring WebSockets, STOMP messaging, and Leaflet Maps, providing real-time location updates and shipment visibility.
+
+---
+
+## 🎯 Platform Highlights
+
+- ✅ JWT Authentication & Role-Based Access Control
+- ✅ Real-Time Shipment Tracking with WebSockets
+- ✅ Interactive GPS Monitoring using Leaflet Maps
+- ✅ Freight Marketplace & Carrier Matching
+- ✅ Live Carrier Bidding System
+- ✅ Logistics Control Tower Dashboard
+- ✅ Shipment Analytics & KPI Monitoring
+- ✅ PostgreSQL Database Integration
+- ✅ Spring Security Protected APIs
+- ✅ Responsive Modern SaaS UI/UX
 
 ## 🎓 Learning Outcomes
 
@@ -307,5 +351,5 @@ Unlike generic database-driven templates, LogiFlow demonstrates key system desig
 
 ## 👤 Author & License
 
-* **Author:** LogiFlow Developer
+* **Author:** M.Sai Sneha Sree
 * **License:** Distributed under the MIT License. See `LICENSE` for more information.
