@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate , Link} from "react-router-dom";
-import { Truck, Mail, Lock, ArrowRight , Eye , EyeOff } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { Truck, Mail, Lock, ArrowRight, Eye, EyeOff, Navigation } from "lucide-react";
 import api from "../services/api";
 
 export default function LoginPage() {
@@ -27,207 +27,109 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="
-    min-h-screen
-    bg-gradient-to-br
-    from-slate-950
-    via-black
-    to-slate-950
-    text-white
-    relative
-    overflow-hidden
-">
-
-            <div className="absolute top-0 left-0 w-full h-full">
-
-                <div className="absolute top-20 left-20 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-
-                <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-
+        <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+            
+            {/* Soft decorative background glows */}
+            <div className="absolute inset-0 z-0">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
             </div>
 
-            <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
-
-                <div className="text-center mb-12">
-
-                    <div className="text-7xl mb-6">
-                        🚚
+            <div className="relative z-10 sm:mx-auto sm:w-full sm:max-w-md space-y-6">
+                
+                {/* Brand Logo & Name */}
+                <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 mb-4">
+                        <Navigation size={22} className="rotate-45" />
                     </div>
-
-                    <h1 className="text-7xl font-black tracking-tight">
-                        Logi<span className="text-cyan-400">Flow</span>
-                    </h1>
-
-                    <p className="mt-6 text-2xl text-slate-300">
-                        Real-Time Logistics Marketplace
+                    <h2 className="text-2xl font-bold tracking-tight text-white uppercase font-sans">
+                        LogiFlow
+                    </h2>
+                    <p className="text-xs text-zinc-500 mt-1.5">
+                        Enterprise Logistics Operations & Fleet Tracker
                     </p>
-
-                    <p className="mt-4 text-slate-500 max-w-2xl">
-                        Connect shippers, carriers and customers through one unified
-                        freight marketplace with real-time shipment tracking.
-                    </p>
-
                 </div>
 
-                <div
-                    className="
-    w-full
-    max-w-md
-    bg-white/5
-    backdrop-blur-xl
-    border
-    border-white/10
-    rounded-[32px]
-    p-8
-    shadow-[0_0_60px_rgba(6,182,212,0.15)]
-"
-                >
-                        <div className="flex flex-col items-center">
+                {/* Card Container */}
+                <div className="bg-zinc-900/60 border border-zinc-800/80 px-8 py-8 rounded-xl shadow-xl space-y-6">
+                    <div>
+                        <h3 className="text-sm font-semibold text-white">Welcome dispatchers</h3>
+                        <p className="text-xs text-zinc-500 mt-1">Sign in with your operational credentials to track routes.</p>
+                    </div>
 
-                            <div className="w-20 h-20 rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center mb-6">
-                                <Truck size={36} />
+                    <form onSubmit={handleLogin} className="space-y-4">
+                        <div>
+                            <label className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 block mb-1.5">Email address</label>
+                            <div className="relative">
+                                <Mail size={14} className="absolute left-3 top-3.5 text-zinc-600" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    className="w-full bg-zinc-950 border border-zinc-800 pl-9 pr-4 py-2.5 rounded-lg text-xs text-white placeholder:text-zinc-650 focus:border-zinc-700 outline-none transition"
+                                    placeholder="name@company.com"
+                                    required
+                                />
                             </div>
-
-                            <h2 className="text-3xl font-bold text-center">
-                                Welcome Back
-                            </h2>
-
-                            <p className="text-center text-slate-400 mt-3">
-                                Log in to continue to LogiFlow
-                            </p>
-
                         </div>
 
-                        <form
-                            onSubmit={handleLogin}
-                            className="mt-10 space-y-6"
-                        >
-
-                            <div>
-
-                                <label className="text-sm text-slate-400">
-                                    Email
-                                </label>
-
-                                <div className="mt-2 relative">
-
-                                    <Mail
-                                        size={18}
-                                        className="absolute left-4 top-4 text-slate-500"
-                                    />
-
-                                    <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        className="w-full pl-12 pr-4 py-4 rounded-2xl bg-slate-900 border border-slate-800 focus:border-cyan-500 outline-none"
-                                        placeholder="Enter your email"
-                                        required
-                                    />
-
-                                </div>
-
-                            </div>
-
-                            <div>
-
-                                <label className="text-sm text-slate-400">
-                                    Password
-                                </label>
-
-                                <div className="mt-2 relative">
-
-                                    <Lock
-                                        size={18}
-                                        className="absolute left-4 top-4 text-slate-500"
-                                    />
-
-                                    <input
-                                        type={showPassword ? "text" : "password"}
-                                        value={password}
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
-                                        className="w-full pl-12 pr-12 py-4 rounded-2xl bg-slate-900 border border-slate-800 focus:border-cyan-500 outline-none"
-                                        placeholder="Enter your password"
-                                        required
-                                    />
-
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setShowPassword(!showPassword)
-                                        }
-                                        className="absolute right-4 top-4 text-slate-400 hover:text-cyan-400"
-                                    >
-                                        {showPassword ? (
-                                            <EyeOff size={18} />
-                                        ) : (
-                                            <Eye size={18} />
-                                        )}
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 font-semibold flex items-center justify-center gap-2 hover:scale-[1.02] transition"
-                            >
-                                Log In
-                                <ArrowRight size={18} />
-                            </button>
-                            <p className="text-center text-slate-400 text-sm mt-4">
-                                Don't have an account?{" "}
-                                <Link
-                                    to="/signup"
-                                    className="text-cyan-400 hover:text-cyan-300"
+                        <div>
+                            <label className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 block mb-1.5">Password</label>
+                            <div className="relative">
+                                <Lock size={14} className="absolute left-3 top-3.5 text-zinc-600" />
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    className="w-full bg-zinc-950 border border-zinc-800 pl-9 pr-10 py-2.5 rounded-lg text-xs text-white placeholder:text-zinc-650 focus:border-zinc-700 outline-none transition"
+                                    placeholder="••••••••"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-3 top-3 text-zinc-500 hover:text-zinc-300"
                                 >
-                                    Create Account
-                                </Link>
-                            </p>
-
-                        </form>
-                    <div className="mt-12 flex gap-10 text-center justify-center">
-
-                        <div>
-                            <h3 className="text-3xl font-bold text-cyan-400">
-                                10K+
-                            </h3>
-                            <p className="text-slate-500 text-sm">
-                                Shipments
-                            </p>
+                                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                                </button>
+                            </div>
                         </div>
 
-                        <div>
-                            <h3 className="text-3xl font-bold text-cyan-400">
-                                5K+
-                            </h3>
-                            <p className="text-slate-500 text-sm">
-                                Carriers
-                            </p>
-                        </div>
+                        <button
+                            type="submit"
+                            className="w-full py-2.5 bg-cyan-500 hover:bg-cyan-600 text-xs font-semibold text-zinc-950 rounded-lg flex items-center justify-center gap-1.5 transition active:scale-[0.98]"
+                        >
+                            Establish Connection <ArrowRight size={14} />
+                        </button>
+                    </form>
 
-                        <div>
-                            <h3 className="text-3xl font-bold text-cyan-400">
-                                25+
-                            </h3>
-                            <p className="text-slate-500 text-sm">
-                                Cities
-                            </p>
-                        </div>
-
+                    <div className="text-center pt-2">
+                        <p className="text-xs text-zinc-500">
+                            Authorized carrier accounts only.{" "}
+                            <Link to="/signup" className="text-cyan-400 hover:underline">
+                                Request Access
+                            </Link>
+                        </p>
                     </div>
+                </div>
 
+                {/* Small Telemetry Summary footer */}
+                <div className="flex justify-center gap-8 text-center text-zinc-600 text-[10px] font-mono uppercase tracking-wider">
+                    <div>
+                        <p className="font-bold text-zinc-400">12,400+</p>
+                        <p>Routes</p>
                     </div>
-
+                    <div>
+                        <p className="font-bold text-zinc-400">99.2%</p>
+                        <p>OTD SLA</p>
+                    </div>
+                    <div>
+                        <p className="font-bold text-zinc-400">&lt; 15m</p>
+                        <p>Response</p>
+                    </div>
                 </div>
 
             </div>
-
-
+        </div>
     );
 }
