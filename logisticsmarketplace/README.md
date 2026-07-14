@@ -254,17 +254,6 @@ Open `http://localhost:5173` on browser to access the control tower.
 
 ---
 
-## 💼 Resume & Recruiter Impact
-
-Including this project in your portfolio highlights core engineering competencies highly valued by companies like Uber Freight, Flexport, and Amazon Logistics:
-
-* **Real-Time Data Streaming:** Demonstrates capability in constructing low-latency pipelines using WebSockets and STOMP protocols rather than polling resources.
-* **Geofencing & Telemetry Logic:** Proves understanding of spatial arithmetic, processing geographic coordinates to flag deviations and route anomalies dynamically.
-* **Double-sided Exchange Design:** Highlights data consistency controls during bidding actions, concurrency management, and database state transitions.
-* **Premium Dashboard Engineering:** Shows experience compiling modern interfaces with responsive grids, interactive maps, and area volume analytics.
-
----
-
 ## 🔮 Future Enhancements
 
 * **Route Optimization Engine:** Integrate OSRM (Open Source Routing Machine) to calculate transit pathways dynamically.
