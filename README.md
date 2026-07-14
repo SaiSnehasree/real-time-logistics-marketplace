@@ -272,7 +272,6 @@ npm run dev
 Open `http://localhost:5173` on browser.
 
 ---
-
 ## 🖼️ Screenshots
 
 > [!TIP]
@@ -280,7 +279,7 @@ Open `http://localhost:5173` on browser.
 
 ### 🔐 Login Portal
 
-![Login Portal](screenshots/login-page.png)
+![Login Portal](logisticsmarketplace/screenshots/login-page.png)
 
 Secure JWT-based authentication system with role-based access control for shippers, carriers, and administrators.
 
@@ -288,7 +287,7 @@ Secure JWT-based authentication system with role-based access control for shippe
 
 ### 📊 Operations Dashboard
 
-![Operations Dashboard](screenshots/operations-dashboard.png)
+![Operations Dashboard](logisticsmarketplace/screenshots/operations-dashboard.png)
 
 Centralized logistics control center displaying shipment KPIs, active deliveries, carrier utilization, operational alerts, and business analytics.
 
@@ -296,7 +295,7 @@ Centralized logistics control center displaying shipment KPIs, active deliveries
 
 ### 🚚 Freight Exchange Marketplace
 
-![Freight Exchange Marketplace](screenshots/freight-exchange.png)
+![Freight Exchange Marketplace](logisticsmarketplace/screenshots/freight-exchange.png)
 
 Marketplace where shippers can publish freight loads and discover available transportation capacity across carrier networks.
 
@@ -304,7 +303,7 @@ Marketplace where shippers can publish freight loads and discover available tran
 
 ### 💰 Carrier Bidding Feed
 
-![Carrier Bidding Feed](screenshots/bidding-feed.png)
+![Carrier Bidding Feed](logisticsmarketplace/screenshots/bidding-feed.png)
 
 Real-time bidding platform enabling carriers to submit transportation proposals while allowing shippers to compare and manage bids efficiently.
 
@@ -312,7 +311,7 @@ Real-time bidding platform enabling carriers to submit transportation proposals 
 
 ### 📡 Control Tower Tracking
 
-![Control Tower Tracking](screenshots/control-tower-tracking.png)
+![Control Tower Tracking](logisticsmarketplace/screenshots/control-tower-tracking.png)
 
 Live shipment monitoring interface powered by Spring WebSockets, STOMP messaging, and Leaflet Maps, providing real-time location updates and shipment visibility.
 
