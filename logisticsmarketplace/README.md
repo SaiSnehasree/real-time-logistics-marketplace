@@ -273,48 +273,17 @@ Open `http://localhost:5173` on browser.
 
 ---
 
-## 🖼️ Screenshots
+## 🖼️ Screenshots Section
 
 > [!TIP]
-> The screenshots below showcase LogiFlow's core workflows, including authentication, operations management, freight exchange, carrier bidding, and real-time shipment tracking.
+> The screenshots below illustrate the interface redesign matching premium startup design guidelines.
 
-### 🔐 Login Portal
-
-![Login Portal](screenshots/login-page.png)
-
-Secure JWT-based authentication portal providing controlled access for dispatchers, shippers, and carriers.
-
----
-
-### 📊 Operations Dashboard
-
-![Operations Dashboard](screenshots/operations-dashboard.png)
-
-Centralized operations dashboard displaying active shipments, delayed loads, carrier utilization, SLA metrics, and logistics analytics.
-
----
-
-### 🚚 Freight Exchange Marketplace
-
-![Freight Exchange Marketplace](screenshots/freight-exchange.png)
-
-Freight marketplace where shippers publish shipment requirements and manage transportation demand across available carriers.
-
----
-
-### 💰 Carrier Bidding Feed
-
-![Carrier Bidding Feed](screenshots/bidding-feed.png)
-
-Competitive bidding interface enabling carriers to submit transportation proposals while allowing shippers to review, accept, or reject bids.
-
----
-
-### 📡 Control Tower GPS Tracking
-
-![Control Tower GPS Tracking](screenshots/control-tower-tracking.png)
-
-Real-time shipment monitoring dashboard powered by Spring WebSockets, STOMP messaging, and Leaflet Maps for live fleet visibility and route tracking.
+| Feature Layout | Interface Mockup Placeholder |
+| :--- | :--- |
+| **Operator Access Terminal** | `[Placeholder: /frontend/public/screenshots/login.png]` |
+| **Dispatcher Operations HUD** | `[Placeholder: /frontend/public/screenshots/dashboard.png]` |
+| **Freight Exchange Panel** | `[Placeholder: /frontend/public/screenshots/marketplace.png]` |
+| **Control Tower GPS Tracking** | `[Placeholder: /frontend/public/screenshots/tracking.png]` |
 
 ---
 
@@ -338,5 +307,5 @@ Unlike generic database-driven templates, LogiFlow demonstrates key system desig
 
 ## 👤 Author & License
 
-* **Author:** M. Sai Sneha Sree
+* **Author:** LogiFlow Developer
 * **License:** Distributed under the MIT License. See `LICENSE` for more information.
