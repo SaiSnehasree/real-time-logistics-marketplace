@@ -42,4 +42,12 @@ public class ShipmentController {
     public Map<String, Long> analytics() {
         return shipmentService.getAnalytics();
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Shipment> updateStatus(
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
+        String status = body.get("status");
+        return ResponseEntity.ok(shipmentService.updateStatus(id, status));
+    }
 }

@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -12,11 +13,14 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY =
-            "TXlTdXBlclNlY3JldEtleUZvckp3dEF1dGhlbnRpY2F0aW9uMTIzNDU2Nzg5MDEyMzQ1Ng==";
+    @Value("${app.jwt.secret:TXlTdXBlclNlY3JldEtleUZvckp3dEF1dGhlbnRpY2F0aW9uMTIzNDU2Nzg5MDEyMzQ1Ng==}")
+    private String secretKey;
+
+    @Value("${app.jwt.expiration-ms:86400000}")
+    private long jwtExpirationMs;
 
     private SecretKey getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -24,7 +28,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(email)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(getSigningKey())
                 .compact();
     }

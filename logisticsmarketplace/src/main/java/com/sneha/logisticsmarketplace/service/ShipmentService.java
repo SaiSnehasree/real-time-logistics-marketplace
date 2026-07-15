@@ -38,35 +38,24 @@ public class ShipmentService {
         return shipmentRepository.findAll();
     }
     public Map<String, Long> getAnalytics() {
-
         Map<String, Long> analytics = new HashMap<>();
-
-        analytics.put("totalShipments",
-                shipmentRepository.count());
-
-        analytics.put("available",
-                shipmentRepository.countByStatus(
-                        ShipmentStatus.AVAILABLE));
-
-        analytics.put("awaitingPickup",
-                shipmentRepository.countByStatus(
-                        ShipmentStatus.AWAITING_PICKUP));
-
-        analytics.put("inTransit",
-                shipmentRepository.countByStatus(
-                        ShipmentStatus.IN_TRANSIT));
-
-        analytics.put("delivered",
-                shipmentRepository.countByStatus(
-                        ShipmentStatus.DELIVERED));
-
+        analytics.put("totalShipments", shipmentRepository.count());
+        analytics.put("available", shipmentRepository.countByStatus(ShipmentStatus.AVAILABLE));
+        analytics.put("awaitingPickup", shipmentRepository.countByStatus(ShipmentStatus.AWAITING_PICKUP));
+        analytics.put("inTransit", shipmentRepository.countByStatus(ShipmentStatus.IN_TRANSIT));
+        analytics.put("delivered", shipmentRepository.countByStatus(ShipmentStatus.DELIVERED));
         return analytics;
     }
 
+    public Shipment updateStatus(Long id, String status) {
+        Shipment shipment = shipmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Shipment not found"));
+        shipment.setStatus(ShipmentStatus.valueOf(status.toUpperCase()));
+        return shipmentRepository.save(shipment);
+    }
+
     public void deleteShipment(Long id) {
-
         bidRepository.deleteByShipmentId(id);
-
         shipmentRepository.deleteById(id);
     }
 }

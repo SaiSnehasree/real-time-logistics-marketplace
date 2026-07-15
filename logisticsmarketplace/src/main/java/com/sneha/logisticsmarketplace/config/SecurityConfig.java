@@ -29,9 +29,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/shipments/**").permitAll()
-                        .requestMatchers("/bids/**").permitAll()
-                        .requestMatchers("/tracking/**").hasAnyRole("SHIPPER", "CARRIER", "CUSTOMER")
+                        .requestMatchers("/tracking").permitAll() // WebSocket Handshake endpoint
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
