@@ -24,13 +24,12 @@ export default function DashboardPage() {
         api.get("/shipments/analytics")
             .then((res) => setAnalytics(res.data))
             .catch(() => {
-                // Fallback structured data if API call has network issues or is starting up
                 setAnalytics({
-                    totalShipments: 12,
-                    available: 4,
-                    awaitingPickup: 5,
-                    delivered: 3,
-                    inTransit: 2
+                    totalShipments: 0,
+                    available: 0,
+                    awaitingPickup: 0,
+                    delivered: 0,
+                    inTransit: 0
                 });
             });
 
@@ -90,34 +89,34 @@ export default function DashboardPage() {
                     value={analytics.totalShipments - analytics.delivered}
                     icon={<Package className="text-cyan-400" size={16} />}
                     color="bg-cyan-500/10"
-                    trend="+14% vs avg"
+                    trend="Syncing"
                     trendType="up"
                 />
 
                 <StatCard
-                    title="Delayed Loads"
-                    value="1"
+                    title="Available Loads"
+                    value={analytics.available}
                     icon={<AlertTriangle className="text-amber-400" size={16} />}
                     color="bg-amber-500/10"
-                    trend="-23% improvement"
+                    trend="Live"
                     trendType="up"
                 />
 
                 <StatCard
-                    title="On-Time Delivery (OTD)"
-                    value="98.4%"
+                    title="In-Transit Loads"
+                    value={analytics.inTransit}
                     icon={<CheckCircle className="text-emerald-400" size={16} />}
                     color="bg-emerald-500/10"
-                    trend="+1.2% SLA gain"
+                    trend="Live"
                     trendType="up"
                 />
 
                 <StatCard
-                    title="Carrier Utilization"
-                    value="84.2%"
+                    title="Delivered Loads"
+                    value={analytics.delivered}
                     icon={<Truck className="text-blue-400" size={16} />}
                     color="bg-blue-500/10"
-                    trend="+5.4% efficiency"
+                    trend="Total"
                     trendType="up"
                 />
             </div>

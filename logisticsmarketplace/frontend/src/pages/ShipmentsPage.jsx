@@ -28,12 +28,7 @@ export default function ShipmentsPage() {
             .then((res) => setShipments(res.data))
             .catch((err) => {
                 console.error(err);
-                // Fallback structured data if API call has network issues or is starting up
-                setShipments([
-                    { id: 1, origin: "Hyderabad", destination: "Chennai", weight: 4500, status: "AVAILABLE", priority: "EXPEDITED" },
-                    { id: 2, origin: "Pune", destination: "Mumbai", weight: 2300, status: "AWAITING_PICKUP", priority: "HOT LOAD" },
-                    { id: 3, origin: "Bangalore", destination: "Hyderabad", weight: 6000, status: "DELIVERED", priority: "STANDARD" }
-                ]);
+                setShipments([]);
             });
     };
 

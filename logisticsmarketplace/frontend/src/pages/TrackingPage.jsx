@@ -55,18 +55,12 @@ export default function TrackingPage() {
             const response = await api.get("/shipments");
             setShipments(response.data);
             if (response.data.length > 0) {
-                // Pre-select first shipment for telemetry visualization
                 setSelectedShipment(response.data[0]);
             }
         } catch (error) {
             console.error(error);
-            // Fallback mock loads if API has network difficulties
-            const fallback = [
-                { id: 2, origin: "Pune", destination: "Mumbai", weight: 2300, status: "AWAITING_PICKUP", driverName: "Karan Singh", eta: "2h 45m", speed: "65 km/h", deviation: true, ping: "2 mins ago" },
-                { id: 1, origin: "Hyderabad", destination: "Chennai", weight: 4500, status: "DELIVERED", driverName: "Rohan Patel", eta: "Delivered", speed: "0 km/h", deviation: false, ping: "10 mins ago" }
-            ];
-            setShipments(fallback);
-            setSelectedShipment(fallback[0]);
+            setShipments([]);
+            setSelectedShipment(null);
         }
     };
 
@@ -148,19 +142,19 @@ export default function TrackingPage() {
                             <div className="grid grid-cols-2 gap-2 text-xs">
                                 <div className="bg-zinc-950/40 p-2.5 rounded border border-zinc-850">
                                     <p className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">ETA Confidence</p>
-                                    <p className="font-bold text-white font-mono mt-0.5">{selectedShipment.deviation ? "42%" : "96%"}</p>
+                                    <p className="font-bold text-white font-mono mt-0.5">{selectedShipment.etaConfidence ? `${selectedShipment.etaConfidence}%` : "N/A"}</p>
                                 </div>
                                 <div className="bg-zinc-950/40 p-2.5 rounded border border-zinc-850">
                                     <p className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Live Velocity</p>
-                                    <p className="font-bold text-white font-mono mt-0.5">{selectedShipment.speed || "62 km/h"}</p>
+                                    <p className="font-bold text-white font-mono mt-0.5">{selectedShipment.speed ? `${selectedShipment.speed} km/h` : "N/A"}</p>
                                 </div>
                                 <div className="bg-zinc-950/40 p-2.5 rounded border border-zinc-850">
                                     <p className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Last GPS Ping</p>
-                                    <p className="font-bold text-cyan-400 font-mono mt-0.5">{selectedShipment.ping || "Just now"}</p>
+                                    <p className="font-bold text-cyan-400 font-mono mt-0.5">{selectedShipment.ping || "N/A"}</p>
                                 </div>
                                 <div className="bg-zinc-950/40 p-2.5 rounded border border-zinc-850">
                                     <p className="text-[9px] uppercase font-mono tracking-wider text-zinc-500">Active Driver</p>
-                                    <p className="font-bold text-zinc-200 mt-0.5 truncate">{selectedShipment.driverName || "Rahul Sharma"}</p>
+                                    <p className="font-bold text-zinc-200 mt-0.5 truncate">{selectedShipment.driverName || "Unassigned"}</p>
                                 </div>
                             </div>
 

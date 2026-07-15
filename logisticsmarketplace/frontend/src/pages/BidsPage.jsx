@@ -10,29 +10,7 @@ export default function BidsPage() {
             .then((res) => setBids(res.data))
             .catch((err) => {
                 console.error(err);
-                // Fallback mock bids matching logistics context if backend has zero records
-                setBids([
-                    {
-                        id: 101,
-                        amount: 32000,
-                        status: "PENDING",
-                        shipment: { id: 2, origin: "Pune", destination: "Mumbai" },
-                        carrierName: "Express Logistics Inc.",
-                        rating: 4.8,
-                        onTimeRate: "97.2%",
-                        laneAvg: 34000
-                    },
-                    {
-                        id: 102,
-                        amount: 35000,
-                        status: "ACCEPTED",
-                        shipment: { id: 3, origin: "Bangalore", destination: "Hyderabad" },
-                        carrierName: "BlueDart Carrier Corp.",
-                        rating: 4.9,
-                        onTimeRate: "99.1%",
-                        laneAvg: 33500
-                    }
-                ]);
+                setBids([]);
             });
     };
 
@@ -72,7 +50,12 @@ export default function BidsPage() {
                 </div>
                 <div className="bg-zinc-900 border border-zinc-800/80 rounded-xl p-4">
                     <p className="text-zinc-500 text-[10px] uppercase font-mono tracking-wider">Market Savings</p>
-                    <h3 className="text-2xl font-semibold text-cyan-400 mt-1 font-mono">₹6,200</h3>
+                    <h3 className="text-2xl font-semibold text-cyan-400 mt-1 font-mono">
+                        {bids.some(b => b.laneAvg) 
+                            ? `₹${bids.reduce((acc, curr) => acc + (curr.laneAvg ? Math.max(0, curr.laneAvg - curr.amount) : 0), 0).toLocaleString()}`
+                            : "N/A"
+                        }
+                    </h3>
                 </div>
             </div>
 
@@ -99,7 +82,7 @@ export default function BidsPage() {
                                             {bid.carrierName || "Independent Carrier"}
                                         </h4>
                                         <span className="flex items-center gap-0.5 text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
-                                            <Star size={10} fill="currentColor" /> {bid.rating || "4.7"}
+                                            <Star size={10} fill="currentColor" /> {bid.rating ? bid.rating : "N/A"}
                                         </span>
                                         <span className="flex items-center gap-0.5 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
                                             <ShieldCheck size={10} /> Active SLA
@@ -109,7 +92,7 @@ export default function BidsPage() {
                                         Lane: {bid.shipment?.origin || "Origin"} → {bid.shipment?.destination || "Destination"} (ID: SHIP-{bid.shipment?.id})
                                     </p>
                                     <p className="text-[10px] text-zinc-400">
-                                        On-time rate: <strong className="text-zinc-200">{bid.onTimeRate || "95.0%"}</strong>
+                                        On-time rate: <strong className="text-zinc-200">{bid.onTimeRate ? `${bid.onTimeRate}%` : "N/A"}</strong>
                                     </p>
                                 </div>
 
