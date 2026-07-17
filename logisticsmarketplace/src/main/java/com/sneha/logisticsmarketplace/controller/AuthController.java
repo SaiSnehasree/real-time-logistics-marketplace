@@ -1,12 +1,14 @@
 package com.sneha.logisticsmarketplace.controller;
 
+import com.sneha.logisticsmarketplace.dto.ApiResponse;
 import com.sneha.logisticsmarketplace.dto.AuthResponse;
+import com.sneha.logisticsmarketplace.dto.LoginRequest;
 import com.sneha.logisticsmarketplace.dto.RegisterRequest;
 import com.sneha.logisticsmarketplace.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sneha.logisticsmarketplace.dto.LoginRequest;
-import com.sneha.logisticsmarketplace.dto.AuthResponse;
 
 @RestController
 @RequestMapping("/auth")
@@ -16,12 +18,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
+    public ResponseEntity<ApiResponse<AuthResponse>> register(@RequestBody RegisterRequest request) {
+        AuthResponse response = authService.register(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response, response.getMessage()));
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
-        return authService.login(request);
+    public ResponseEntity<ApiResponse<AuthResponse>> login(@RequestBody LoginRequest request) {
+        AuthResponse response = authService.login(request);
+        return ResponseEntity.ok(ApiResponse.success(response, response.getMessage()));
     }
 }

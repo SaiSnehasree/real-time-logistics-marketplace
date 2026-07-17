@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { User, Mail, Lock, Eye, EyeOff, ArrowRight, Navigation } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, Eye, EyeOff, Navigation, Briefcase } from "lucide-react";
 import api from "../services/api";
 
 export default function SignupPage() {
@@ -9,22 +9,31 @@ export default function SignupPage() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("SHIPPER");
     const [showPassword, setShowPassword] = useState(false);
 
     const handleSignup = async (e) => {
         e.preventDefault();
 
         try {
-            await api.post("/auth/register", {
+            const response = await api.post("/auth/register", {
                 name,
                 email,
-                password
+                password,
+                role
             });
 
-            alert("Registration successful!");
-            navigate("/login");
-        } catch (error) {
-            alert("Registration failed");
+            const data = response.data.data;
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify({
+                id: data.userId,
+                name: data.name,
+                role: data.role
+            }));
+            
+            navigate("/");
+        } catch {
+            alert("Registration failed. Email might already exist.");
         }
     };
 
@@ -46,17 +55,37 @@ export default function SignupPage() {
                         LogiFlow
                     </h2>
                     <p className="text-xs text-zinc-500 mt-1.5">
-                        Create Your Logistics Operator Account
+                        Enterprise Logistics Operations & Fleet Tracker
                     </p>
                 </div>
 
                 <div className="bg-zinc-900/60 border border-zinc-800/80 px-8 py-8 rounded-xl shadow-xl space-y-6">
                     <div>
-                        <h3 className="text-sm font-semibold text-white">Join the Logistics Network</h3>
-                        <p className="text-xs text-zinc-500 mt-1">Configure dispatcher credentials to start posting lanes.</p>
+                        <h3 className="text-sm font-semibold text-white">Create an account</h3>
+                        <p className="text-xs text-zinc-500 mt-1">Join the logistics network to manage shipments or bid on loads.</p>
                     </div>
 
                     <form onSubmit={handleSignup} className="space-y-4">
+                        <div>
+                            <label className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 block mb-1.5">Account Type</label>
+                            <div className="flex gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setRole("SHIPPER")}
+                                    className={`flex-1 py-2 text-xs rounded-lg border transition ${role === 'SHIPPER' ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400' : 'bg-zinc-950 border-zinc-800 text-zinc-500 hover:border-zinc-700'}`}
+                                >
+                                    Shipper
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setRole("CARRIER")}
+                                    className={`flex-1 py-2 text-xs rounded-lg border transition ${role === 'CARRIER' ? 'bg-cyan-500/20 border-cyan-500 text-cyan-400' : 'bg-zinc-950 border-zinc-800 text-zinc-500 hover:border-zinc-700'}`}
+                                >
+                                    Carrier
+                                </button>
+                            </div>
+                        </div>
+
                         <div>
                             <label className="text-[10px] uppercase font-mono tracking-wider text-zinc-500 block mb-1.5">Full Name</label>
                             <div className="relative">
@@ -66,7 +95,7 @@ export default function SignupPage() {
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                     className="w-full bg-zinc-950 border border-zinc-800 pl-9 pr-4 py-2.5 rounded-lg text-xs text-white placeholder:text-zinc-650 focus:border-zinc-700 outline-none transition"
-                                    placeholder="Jane Doe"
+                                    placeholder="John Doe"
                                     required
                                 />
                             </div>
@@ -113,17 +142,32 @@ export default function SignupPage() {
                             type="submit"
                             className="w-full py-2.5 bg-cyan-500 hover:bg-cyan-600 text-xs font-semibold text-zinc-950 rounded-lg flex items-center justify-center gap-1.5 transition active:scale-[0.98]"
                         >
-                            Request Operator Access <ArrowRight size={14} />
+                            Create Account <ArrowRight size={14} />
                         </button>
                     </form>
 
                     <div className="text-center pt-2">
                         <p className="text-xs text-zinc-500">
-                            Already configured?{" "}
+                            Already have an account?{" "}
                             <Link to="/login" className="text-cyan-400 hover:underline">
-                                Sign In
+                                Log In
                             </Link>
                         </p>
+                    </div>
+                </div>
+
+                <div className="flex justify-center gap-8 text-center text-zinc-600 text-[10px] font-mono uppercase tracking-wider">
+                    <div>
+                        <p className="font-bold text-zinc-400">12,400+</p>
+                        <p>Routes</p>
+                    </div>
+                    <div>
+                        <p className="font-bold text-zinc-400">99.2%</p>
+                        <p>OTD SLA</p>
+                    </div>
+                    <div>
+                        <p className="font-bold text-zinc-400">&lt; 15m</p>
+                        <p>Response</p>
                     </div>
                 </div>
 

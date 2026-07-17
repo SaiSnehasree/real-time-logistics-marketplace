@@ -9,5 +9,8 @@ public class AuthResponse {
 
     private String message;
     private String token;
+    private String name;
+    private String role;
+    private Long userId;
 
 }

@@ -22,7 +22,13 @@ export default function DashboardPage() {
 
     useEffect(() => {
         api.get("/shipments/analytics")
-            .then((res) => setAnalytics(res.data))
+            .then((res) => setAnalytics(res.data.data || {
+                totalShipments: 0,
+                available: 0,
+                awaitingPickup: 0,
+                delivered: 0,
+                inTransit: 0
+            }))
             .catch(() => {
                 setAnalytics({
                     totalShipments: 0,
@@ -33,8 +39,8 @@ export default function DashboardPage() {
                 });
             });
 
-        api.get("/shipments")
-            .then((res) => setShipments(res.data))
+        api.get("/shipments/my")
+            .then((res) => setShipments(res.data.data || []))
             .catch(() => {});
     }, []);
 

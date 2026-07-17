@@ -19,7 +19,14 @@ export default function LoginPage() {
                 password,
             });
 
-            localStorage.setItem("token", response.data.token);
+            const data = response.data.data;
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("user", JSON.stringify({
+                id: data.userId,
+                name: data.name,
+                role: data.role
+            }));
+            
             navigate("/");
         } catch {
             alert("Invalid credentials");

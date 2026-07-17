@@ -7,7 +7,10 @@ import BidsPage from "./pages/BidsPage";
 import TrackingPage from "./pages/TrackingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage.jsx";
+import MarketplacePage from "./pages/MarketplacePage";
+import NotificationsPage from "./pages/NotificationsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
     return (
         <BrowserRouter>
@@ -24,8 +27,10 @@ function App() {
                 >
                     <Route path="/" element={<DashboardPage />} />
                     <Route path="/shipments" element={<ShipmentsPage />} />
+                    <Route path="/marketplace" element={<MarketplacePage />} />
                     <Route path="/bids" element={<BidsPage />} />
                     <Route path="/tracking" element={<TrackingPage />} />
+                    <Route path="/notifications" element={<NotificationsPage />} />
                 </Route>
 
             </Routes>

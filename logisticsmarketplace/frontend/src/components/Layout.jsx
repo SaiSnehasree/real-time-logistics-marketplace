@@ -7,28 +7,54 @@ import {
     LogOut,
     Activity,
     AlertTriangle,
-    ShieldAlert
+    Box
 } from "lucide-react";
-
+import { useEffect, useState } from "react";
 import {
     NavLink,
     Outlet,
     useNavigate
 } from "react-router-dom";
+import api from "../services/api";
 
 export default function Layout() {
 
     const navigate = useNavigate();
+    const [unreadCount, setUnreadCount] = useState(0);
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
 
-    const links = [
-        { name: "Operations", path: "/", icon: LayoutDashboard },
-        { name: "Freight Exchange", path: "/shipments", icon: Package },
-        { name: "Bidding Feed", path: "/bids", icon: Gavel },
-        { name: "Control Tower", path: "/tracking", icon: MapPinned }
-    ];
+    useEffect(() => {
+        if (user.id) {
+            api.get("/notifications/unread-count")
+               .then(res => setUnreadCount(res.data.data))
+               .catch(console.error);
+        }
+    }, [user.id]);
+
+    let links = [];
+    if (user.role === 'SHIPPER') {
+        links = [
+            { name: "Dashboard", path: "/", icon: LayoutDashboard },
+            { name: "My Shipments", path: "/shipments", icon: Package },
+            { name: "Bidding Feed", path: "/bids", icon: Gavel },
+            { name: "Control Tower", path: "/tracking", icon: MapPinned }
+        ];
+    } else if (user.role === 'CARRIER') {
+        links = [
+            { name: "Dashboard", path: "/", icon: LayoutDashboard },
+            { name: "Marketplace", path: "/marketplace", icon: Box },
+            { name: "My Bids", path: "/bids", icon: Gavel },
+            { name: "Active Runs", path: "/tracking", icon: MapPinned }
+        ];
+    } else {
+        links = [
+            { name: "Operations", path: "/", icon: LayoutDashboard }
+        ];
+    }
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         navigate("/login");
     };
 
@@ -51,15 +77,7 @@ export default function Layout() {
                         <div className="hidden md:flex items-center gap-4 text-xs font-mono text-zinc-500 border-l border-zinc-800 pl-6">
                             <div className="flex items-center gap-1.5">
                                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <span>Fleet Status: Optimal</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <Activity size={12} className="text-cyan-400" />
-                                <span className="text-zinc-300">OTD: <strong className="text-white">98.4%</strong></span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <AlertTriangle size={12} className="text-amber-400" />
-                                <span className="text-zinc-300">Pending Bids: <strong className="text-white">5</strong></span>
+                                <span>Network: Optimal</span>
                             </div>
                         </div>
                     </div>
@@ -92,28 +110,35 @@ export default function Layout() {
                     {/* Notification, Profile, & Logout */}
                     <div className="flex items-center gap-3">
 
-                        <button className="relative w-9 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 flex items-center justify-center transition">
+                        <button onClick={() => navigate("/notifications")} className="relative w-9 h-9 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 flex items-center justify-center transition cursor-pointer">
                             <Bell size={15} className="text-zinc-400" />
-                            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500" />
+                            {unreadCount > 0 && (
+                                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-[9px] font-bold flex items-center justify-center text-white border-2 border-[#09090b]">
+                                    {unreadCount > 9 ? '9+' : unreadCount}
+                                </span>
+                            )}
                         </button>
 
                         <div className="hidden sm:flex items-center gap-2.5 bg-zinc-900/60 border border-zinc-800 px-3 py-1.5 rounded-lg">
                             <div className="w-6 h-6 rounded-md bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-[10px] font-bold text-white uppercase">
-                                AD
+                                {user.name ? user.name.substring(0,2).toUpperCase() : 'U'}
                             </div>
                             <div className="leading-none">
                                 <p className="text-xs font-medium text-zinc-200">
-                                    Admin Dispatch
+                                    {user.name || "User"}
+                                </p>
+                                <p className="text-[9px] text-zinc-500 font-mono tracking-wider mt-0.5">
+                                    {user.role || "ROLE"}
                                 </p>
                             </div>
                         </div>
 
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-red-500/20 bg-red-500/5 text-red-400 hover:bg-red-500/10 transition"
+                            className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg border border-red-500/20 bg-red-500/5 text-red-400 hover:bg-red-500/10 transition cursor-pointer"
                         >
                             <LogOut size={13} />
-                            Logout
+                            <span className="hidden sm:inline">Logout</span>
                         </button>
 
                     </div>

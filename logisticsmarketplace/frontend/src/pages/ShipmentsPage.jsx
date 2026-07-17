@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import {
     MapPin,
@@ -8,13 +9,19 @@ import {
     Search,
     SlidersHorizontal,
     Trash2,
-    Calendar
+    Loader2,
+    AlertCircle,
+    RefreshCw
 } from "lucide-react";
 
 export default function ShipmentsPage() {
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const navigate = useNavigate();
 
     const [shipments, setShipments] = useState([]);
     const [search, setSearch] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -24,12 +31,16 @@ export default function ShipmentsPage() {
     });
 
     const fetchShipments = () => {
-        api.get("/shipments")
-            .then((res) => setShipments(res.data))
+        setLoading(true);
+        setError(null);
+        api.get("/shipments/my")
+            .then((res) => setShipments(res.data.data || []))
             .catch((err) => {
                 console.error(err);
+                setError("Failed to load shipments.");
                 setShipments([]);
-            });
+            })
+            .finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -38,21 +49,18 @@ export default function ShipmentsPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        await api.post("/shipments", {
-            origin: formData.origin,
-            destination: formData.destination,
-            weight: Number(formData.weight)
-        }).catch(() => {});
-
-        setFormData({
-            origin: "",
-            destination: "",
-            weight: ""
-        });
-
-        setIsDrawerOpen(false);
-        fetchShipments();
+        try {
+            await api.post("/shipments", {
+                origin: formData.origin,
+                destination: formData.destination,
+                weight: Number(formData.weight)
+            });
+            setFormData({ origin: "", destination: "", weight: "" });
+            setIsDrawerOpen(false);
+            fetchShipments();
+        } catch (err) {
+            alert(err.response?.data?.message || "Failed to create shipment.");
+        }
     };
 
     const handleDelete = async (id) => {
@@ -86,11 +94,20 @@ export default function ShipmentsPage() {
                         Total Loads: <strong className="text-white">{shipments.length}</strong>
                     </div>
                     <button
-                        onClick={() => setIsDrawerOpen(true)}
-                        className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-xs font-semibold text-zinc-950 rounded-lg flex items-center gap-1.5 transition active:scale-[0.98]"
+                        onClick={fetchShipments}
+                        className="p-2 border border-zinc-800 hover:bg-zinc-800 text-zinc-500 hover:text-white rounded-lg transition"
+                        title="Refresh"
                     >
-                        <Plus size={14} /> Create Shipment
+                        <RefreshCw size={14} />
                     </button>
+                    {user.role !== "CARRIER" && (
+                        <button
+                            onClick={() => setIsDrawerOpen(true)}
+                            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-600 text-xs font-semibold text-zinc-950 rounded-lg flex items-center gap-1.5 transition active:scale-[0.98]"
+                        >
+                            <Plus size={14} /> Create Shipment
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -173,7 +190,26 @@ export default function ShipmentsPage() {
                 </div>
             )}
 
+            {/* Error state */}
+            {error && (
+                <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 px-4 py-3 rounded-lg text-red-400">
+                    <AlertCircle size={16} className="shrink-0" />
+                    <span className="text-xs">{error}</span>
+                    <button onClick={fetchShipments} className="ml-auto text-xs underline">Retry</button>
+                </div>
+            )}
+
+            {/* Loading skeleton */}
+            {loading && (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[1,2,3,4,5,6].map(i => (
+                        <div key={i} className="h-48 bg-zinc-900/60 border border-zinc-800 rounded-xl animate-pulse" />
+                    ))}
+                </div>
+            )}
+
             {/* Freight Listings Card Grid */}
+            {!loading && (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {shipments
                     .filter((shipment) =>
@@ -222,19 +258,22 @@ export default function ShipmentsPage() {
                                         }`}>
                                             {shipment.status}
                                         </span>
-                                        <button
-                                            onClick={() => handleDelete(shipment.id)}
-                                            className="text-zinc-500 hover:text-red-400 transition"
-                                            title="Delete load"
-                                        >
-                                            <Trash2 size={13} />
-                                        </button>
+                                        {user.role !== "CARRIER" && (
+                                            <button
+                                                onClick={() => handleDelete(shipment.id)}
+                                                className="text-zinc-500 hover:text-red-400 transition"
+                                                title="Delete load"
+                                            >
+                                                <Trash2 size={13} />
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             </div>
                         );
                     })}
             </div>
+            )}
 
         </div>
     );

@@ -1,27 +1,24 @@
 package com.sneha.logisticsmarketplace.controller;
 
+import com.sneha.logisticsmarketplace.dto.ApiResponse;
 import com.sneha.logisticsmarketplace.dto.TrackingUpdate;
 import com.sneha.logisticsmarketplace.service.TrackingService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/tracking")
 @RequiredArgsConstructor
 public class TrackingController {
 
-    private final SimpMessagingTemplate messagingTemplate;
     private final TrackingService trackingService;
 
-    @MessageMapping("/location")
-    public void updateLocation(TrackingUpdate update) {
-
+    @PostMapping("/update")
+    @PreAuthorize("hasAuthority('CARRIER')")
+    public ResponseEntity<ApiResponse<String>> updateLocation(@RequestBody TrackingUpdate update) {
         trackingService.saveLocation(update);
-
-        messagingTemplate.convertAndSend(
-                "/topic/tracking/" + update.getTrackingId(),
-                update
-        );
+        return ResponseEntity.ok(ApiResponse.success("Location updated and broadcasted successfully", "Success"));
     }
 }
